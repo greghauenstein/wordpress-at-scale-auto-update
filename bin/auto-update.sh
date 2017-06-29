@@ -145,27 +145,27 @@ else
 	terminus wp $SITE_UUID.dev -- core update-db
 
         # deploy to test
-        echo -e "\nDeploying the updates from dev to test..."
-        terminus env:deploy $SITE_UUID.test --sync-content --cc --note="Auto deploy of WordPress updates (core, plugin, themes)"
+        # echo -e "\nDeploying the updates from dev to test..."
+        # terminus env:deploy $SITE_UUID.test --sync-content --cc --note="Auto deploy of WordPress updates (core, plugin, themes)"
 
 	# update WordPress database on test
-        echo -e "\nUpdating the WordPress database on the test environment..."
-	terminus wp $SITE_UUID.test -- core update-db
+        # echo -e "\nUpdating the WordPress database on the test environment..."
+	# terminus wp $SITE_UUID.test -- core update-db
 
         # backup the live site
-        echo -e "\nBacking up the live environment..."
-        terminus backup:create $SITE_UUID.live --element=all --keep-for=30
+        # echo -e "\nBacking up the live environment..."
+        # terminus backup:create $SITE_UUID.live --element=all --keep-for=30
 
         # deploy to live
-        echo -e "\nDeploying the updates from test to live..."
-        terminus env:deploy $SITE_UUID.live --cc --note="Auto deploy of WordPress updates (core, plugin, themes)"
+        # echo -e "\nDeploying the updates from test to live..."
+        # terminus env:deploy $SITE_UUID.live --cc --note="Auto deploy of WordPress updates (core, plugin, themes)"
 
 	# update WordPress database on live
-        echo -e "\nUpdating the WordPress database on the live environment..."
-	terminus wp $SITE_UUID.live -- core update-db
+        # echo -e "\nUpdating the WordPress database on the live environment..."
+	# terminus wp $SITE_UUID.live -- core update-db
 
-        echo -e "\nVisual regression tests passed! WordPress updates deployed to live..."
-        SLACK_MESSAGE="${SITENAME} Circle CI update check #${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} Visual regression tests passed! WordPress updates deployed to <https://dashboard.pantheon.io/sites/${SITE_UUID}#live/deploys|the live environment>."
+        echo -e "\nVisual regression tests passed! WordPress updates deployed to dev..."
+        SLACK_MESSAGE="${SITENAME} Circle CI update check #${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} Visual regression tests passed! WordPress updates deployed to <https://dashboard.pantheon.io/sites/${SITE_UUID}#dev/deploys|the dev environment>."
         echo -e "\nSending a message to the ${SLACK_CHANNEL} Slack channel"
         curl -X POST --data "payload={\"channel\": \"${SLACK_CHANNEL}\", \"username\": \"${SLACK_USERNAME}\", \"text\": \"${SLACK_MESSAGE}\"}" $SLACK_HOOK_URL
     fi
